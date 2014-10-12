@@ -41,7 +41,20 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.presentViewController(alert, animated: false, completion: nil)
             } else {
                 self.earthquakes = earthquakes
+
+                let sortListBy = EarthquakeTrackerSettings.sharedInstance.sortListBy
+                if sortListBy == sortEventListBy.TIME {
+                    self.earthquakes.sort {
+                        $0.timems!.longLongValue > $1.timems!.longLongValue
+                    }
+                } else if sortListBy == sortEventListBy.MAGNITUDE {
+                    self.earthquakes.sort {
+                        $0.magnitude > $1.magnitude
+                    }
+                }
+
                 self.tableView.reloadData()
+                self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
             }
         }
     }

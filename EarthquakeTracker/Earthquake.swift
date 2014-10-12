@@ -11,6 +11,7 @@ import Foundation
 class Earthquake {
 
     var time: NSDate?
+    var timems: NSNumber?
     var place: String?
     var magnitude: Double?
     var longitude: Double?
@@ -20,7 +21,7 @@ class Earthquake {
     init(jsonObject: NSDictionary) {
         var properties = jsonObject["properties"] as NSDictionary
 
-        var timems = properties["time"] as? NSNumber
+        timems = properties["time"] as? NSNumber
         time = NSDate(timeIntervalSince1970: NSTimeInterval(timems!/1000))
 
         place = properties["place"] as? String
