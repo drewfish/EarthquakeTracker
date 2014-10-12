@@ -30,9 +30,9 @@ class USGSClient: AFHTTPRequestOperationManager {
 
     var earthquakes: [Earthquake] = []
 
+    let settings = EarthquakeTrackerSettings.sharedInstance
+
     func getEarthquakeList(
-        ndays: UInt8,
-        minmagnitude: Double,
         center: CLLocationCoordinate2D,
         maxradius: CLLocationDegrees,
         callback: (earthquakes: [Earthquake]!, error: NSError!) -> Void
@@ -43,10 +43,23 @@ class USGSClient: AFHTTPRequestOperationManager {
         parameters["format"] = "geojson"
 
         // Start time...
-        var now = NSDate()
-        var starttime = now.dateByAddingTimeInterval(NSTimeInterval(-Int(ndays) * 86400))
+        let now = NSDate()
+
+        let ndays = {
+            () -> Int in
+            switch self.settings.timeLimit {
+            case .DAY:
+                return 1
+            case .WEEK:
+                return 7
+            case .MONTH:
+                return 30
+            }
+        }()
+
+        let starttime = now.dateByAddingTimeInterval(NSTimeInterval(-Int(ndays) * 86400))
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
         parameters["starttime"] = dateFormatter.stringFromDate(starttime)
 
         // Region...
@@ -55,7 +68,7 @@ class USGSClient: AFHTTPRequestOperationManager {
         parameters["maxradius"] = maxradius
 
         // Other...
-        parameters["minmagnitude"] = minmagnitude
+        parameters["minmagnitude"] = settings.minMagnitude
 
         GET(WEB_SERVICE_ENDPOINT,
             parameters: parameters,

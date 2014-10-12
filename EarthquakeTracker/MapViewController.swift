@@ -53,9 +53,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
         map.removeAnnotations(map.annotations)
 
-        USGSClient.sharedInstance.getEarthquakeList(10,
-            minmagnitude: 2,
-            center: map.region.center,
+        USGSClient.sharedInstance.getEarthquakeList(map.region.center,
             maxradius: max(map.region.span.latitudeDelta, map.region.span.longitudeDelta)) {
             (earthquakes: [Earthquake]!, error: NSError!) -> Void in
 

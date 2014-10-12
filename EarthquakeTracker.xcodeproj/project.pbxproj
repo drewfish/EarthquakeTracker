@@ -17,6 +17,8 @@
 		654F59A019E9A60E002F1614 /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F599F19E9A60E002F1614 /* Earthquake.swift */; };
 		654F59A319E9C846002F1614 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F59A219E9C846002F1614 /* MapViewController.swift */; };
 		659D12B319E9FA0C00C7894A /* EarthquakeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659D12B219E9FA0C00C7894A /* EarthquakeTableViewCell.swift */; };
+		65C0584619EAE330008834E3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0584519EAE330008834E3 /* SettingsViewController.swift */; };
+		65C0584819EAE844008834E3 /* EarthquakeTrackerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0584719EAE844008834E3 /* EarthquakeTrackerSettings.swift */; };
 		65EA0D3019E9ED8900805BE9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EA0D2F19E9ED8900805BE9 /* ListViewController.swift */; };
 		796FEE382F27466A9E42FCFD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA89D721B6124EC1A9C3E221 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -48,6 +50,8 @@
 		654F599F19E9A60E002F1614 /* Earthquake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
 		654F59A219E9C846002F1614 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		659D12B219E9FA0C00C7894A /* EarthquakeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeTableViewCell.swift; sourceTree = "<group>"; };
+		65C0584519EAE330008834E3 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		65C0584719EAE844008834E3 /* EarthquakeTrackerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthquakeTrackerSettings.swift; sourceTree = "<group>"; };
 		65EA0D2F19E9ED8900805BE9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		FA89D721B6124EC1A9C3E221 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -107,6 +111,7 @@
 				654F599E19E9A5EC002F1614 /* Models */,
 				654F597819E993DA002F1614 /* AppDelegate.swift */,
 				654F597C19E993DA002F1614 /* Main.storyboard */,
+				65C0584719EAE844008834E3 /* EarthquakeTrackerSettings.swift */,
 				654F597F19E993DA002F1614 /* Images.xcassets */,
 				654F598119E993DA002F1614 /* LaunchScreen.xib */,
 				654F597619E993DA002F1614 /* Supporting Files */,
@@ -163,6 +168,7 @@
 				654F59A219E9C846002F1614 /* MapViewController.swift */,
 				65EA0D2F19E9ED8900805BE9 /* ListViewController.swift */,
 				659D12B219E9FA0C00C7894A /* EarthquakeTableViewCell.swift */,
+				65C0584519EAE330008834E3 /* SettingsViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -309,6 +315,8 @@
 				6535E4CB19E9F69900E2C420 /* MainViewController.swift in Sources */,
 				65EA0D3019E9ED8900805BE9 /* ListViewController.swift in Sources */,
 				659D12B319E9FA0C00C7894A /* EarthquakeTableViewCell.swift in Sources */,
+				65C0584619EAE330008834E3 /* SettingsViewController.swift in Sources */,
+				65C0584819EAE844008834E3 /* EarthquakeTrackerSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

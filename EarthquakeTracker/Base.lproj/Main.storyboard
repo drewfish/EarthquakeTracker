@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pbd-K1-uKL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pbd-K1-uKL">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -27,7 +27,7 @@
         <!--Settings-->
         <scene sceneID="13Y-18-wgT">
             <objects>
-                <viewController id="lIC-Ha-hcj" sceneMemberID="viewController">
+                <viewController id="lIC-Ha-hcj" customClass="SettingsViewController" customModule="EarthquakeTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kh8-Df-Bys"/>
                         <viewControllerLayoutGuide type="bottom" id="KQM-dw-8c4"/>
@@ -35,9 +35,110 @@
                     <view key="view" contentMode="scaleToFill" id="ESU-zW-XX7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show events that happened in the last:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kh6-58-2s4">
+                                <rect key="frame" x="16" y="20" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="tGR-9V-aGY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="07p-Ui-5bV">
+                                <rect key="frame" x="16" y="49" width="288" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="Q3V-pk-1V4"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Day"/>
+                                    <segment title="Week"/>
+                                    <segment title="Month"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onTimeLimitCtrlValueChanged:" destination="lIC-Ha-hcj" eventType="valueChanged" id="TO1-DA-Lmb"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show events with a magnitude greater than %u on the Richter scale" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XNx-bH-WQW">
+                                <rect key="frame" x="16" y="107" width="276" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="aR2-R1-TjT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="0.0" maxValue="6" translatesAutoresizingMaskIntoConstraints="NO" id="7KJ-OO-y1w">
+                                <rect key="frame" x="14" y="149" width="292" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="aye-As-xB9"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="onMinMagSliderValueChanged:" destination="lIC-Ha-hcj" eventType="valueChanged" id="Frm-NZ-igS"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In the list view, sort events by:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eO0-vM-wb0">
+                                <rect key="frame" x="16" y="198" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="sTE-gT-ZgU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="egH-Fk-1a7">
+                                <rect key="frame" x="16" y="227" width="288" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="Bj1-DU-6tz"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Time"/>
+                                    <segment title="Magnitude"/>
+                                    <segment title="Proximity"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onListViewSortCtrlValueChanged:" destination="lIC-Ha-hcj" eventType="valueChanged" id="dH2-db-nq4"/>
+                                </connections>
+                            </segmentedControl>
+                            <imageView userInteractionEnabled="NO" alpha="0.34999999999999964" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="crack" translatesAutoresizingMaskIntoConstraints="NO" id="JZM-33-lve">
+                                <rect key="frame" x="0.0" y="-65" width="320" height="569"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="egH-Fk-1a7" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="677-9a-ShG"/>
+                            <constraint firstItem="egH-Fk-1a7" firstAttribute="top" secondItem="eO0-vM-wb0" secondAttribute="bottom" constant="8" id="6N3-3o-x2h"/>
+                            <constraint firstItem="JZM-33-lve" firstAttribute="top" secondItem="ESU-zW-XX7" secondAttribute="topMargin" constant="-65" id="7gQ-CD-q3b"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JZM-33-lve" secondAttribute="trailing" constant="-16" id="DwK-i1-qaZ"/>
+                            <constraint firstItem="egH-Fk-1a7" firstAttribute="trailing" secondItem="ESU-zW-XX7" secondAttribute="trailingMargin" id="GC9-6S-Dtb"/>
+                            <constraint firstItem="kh6-58-2s4" firstAttribute="top" secondItem="kh8-Df-Bys" secondAttribute="bottom" constant="20" id="Kld-RG-SLN"/>
+                            <constraint firstItem="XNx-bH-WQW" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="LsL-UA-PH5"/>
+                            <constraint firstItem="07p-Ui-5bV" firstAttribute="top" secondItem="kh6-58-2s4" secondAttribute="bottom" constant="8" id="SZh-Nm-EYC"/>
+                            <constraint firstItem="kh6-58-2s4" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="T5H-uN-dvl"/>
+                            <constraint firstItem="7KJ-OO-y1w" firstAttribute="top" secondItem="XNx-bH-WQW" secondAttribute="bottom" constant="3" id="UoD-is-Pi6"/>
+                            <constraint firstItem="eO0-vM-wb0" firstAttribute="trailing" secondItem="ESU-zW-XX7" secondAttribute="trailingMargin" id="Y2L-wR-P4g"/>
+                            <constraint firstItem="7KJ-OO-y1w" firstAttribute="trailing" secondItem="ESU-zW-XX7" secondAttribute="trailingMargin" id="ZMA-UJ-86i"/>
+                            <constraint firstItem="XNx-bH-WQW" firstAttribute="top" secondItem="07p-Ui-5bV" secondAttribute="bottom" constant="30" id="c3w-Dv-eHW"/>
+                            <constraint firstItem="kh6-58-2s4" firstAttribute="trailing" secondItem="ESU-zW-XX7" secondAttribute="trailingMargin" id="ch8-pC-Tfb"/>
+                            <constraint firstItem="eO0-vM-wb0" firstAttribute="top" secondItem="7KJ-OO-y1w" secondAttribute="bottom" constant="19" id="dfh-1u-ixW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XNx-bH-WQW" secondAttribute="trailing" constant="12" id="gjH-ut-vN4"/>
+                            <constraint firstItem="07p-Ui-5bV" firstAttribute="trailing" secondItem="ESU-zW-XX7" secondAttribute="trailingMargin" id="hdS-4G-teL"/>
+                            <constraint firstItem="eO0-vM-wb0" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="hdz-9X-2cq"/>
+                            <constraint firstItem="07p-Ui-5bV" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="lYA-Ew-5sP"/>
+                            <constraint firstItem="JZM-33-lve" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" constant="-16" id="ov2-p3-yg8"/>
+                            <constraint firstItem="7KJ-OO-y1w" firstAttribute="leading" secondItem="ESU-zW-XX7" secondAttribute="leadingMargin" id="t5m-CE-fVG"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="JZM-33-lve" secondAttribute="bottom" constant="-49" id="xdp-fv-8Fe"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="07I-Oy-OY9"/>
+                    <connections>
+                        <outlet property="listViewSortCtrl" destination="egH-Fk-1a7" id="bbh-xd-Ivn"/>
+                        <outlet property="minMagLabel" destination="XNx-bH-WQW" id="RcZ-cw-eH2"/>
+                        <outlet property="minMagSlider" destination="7KJ-OO-y1w" id="6G4-vF-HPg"/>
+                        <outlet property="timeLimitCtrl" destination="07p-Ui-5bV" id="Huz-vp-sLt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R15-Jj-ZN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -293,6 +394,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="crack" width="800" height="600"/>
         <image name="data-icon" width="24" height="24"/>
         <image name="list-icon" width="24" height="24"/>
         <image name="seismometer-icon" width="24" height="24"/>
