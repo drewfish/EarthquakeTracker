@@ -32,8 +32,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map.showsUserLocation = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewDidAppear(animated: Bool) {
+        // In case you just changed your settings...
+        refreshMapAnnotations()
     }
 
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
@@ -46,6 +47,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+        refreshMapAnnotations()
+    }
+
+    func refreshMapAnnotations() {
         // This trivial implementation removes all existing annotations,
         // requests the USGS service, and creates new annotations based
         // on the data returned whenever the user moves the map or zooms
@@ -55,15 +60,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
         USGSClient.sharedInstance.getEarthquakeList(map.region.center,
             maxradius: max(map.region.span.latitudeDelta, map.region.span.longitudeDelta)) {
-            (earthquakes: [Earthquake]!, error: NSError!) -> Void in
+                (earthquakes: [Earthquake]!, error: NSError!) -> Void in
 
-            for earthquake in earthquakes {
-                var annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(
-                    latitude: earthquake.latitude as CLLocationDegrees!,
-                    longitude: earthquake.longitude  as CLLocationDegrees!)
-                self.map.addAnnotation(annotation)
-            }
+                for earthquake in earthquakes {
+                    var annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(
+                        latitude: earthquake.latitude as CLLocationDegrees!,
+                        longitude: earthquake.longitude  as CLLocationDegrees!)
+                    self.map.addAnnotation(annotation)
+                }
         }
     }
 }
