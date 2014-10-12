@@ -25,13 +25,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         dateFormatter.dateFormat = "yyyy-MM-dd 'at' h:mm a"
     }
 
+    override func viewDidAppear(animated: Bool) {
+        // Handle case where the settings have changed...
+    }
+
     func refresh() {
         earthquakes = USGSClient.sharedInstance.earthquakes
         tableView.reloadData()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -64,9 +64,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
                 for earthquake in earthquakes {
                     var annotation = MKPointAnnotation()
+
                     annotation.coordinate = CLLocationCoordinate2D(
                         latitude: earthquake.latitude as CLLocationDegrees!,
                         longitude: earthquake.longitude  as CLLocationDegrees!)
+
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "M/d 'at' h:m a"
+                    let time = dateFormatter.stringFromDate(earthquake.time!)
+
+                    annotation.title = "Mag. \(earthquake.magnitude!) event on \(time)"
+                    annotation.subtitle = earthquake.place
+
                     self.map.addAnnotation(annotation)
                 }
         }

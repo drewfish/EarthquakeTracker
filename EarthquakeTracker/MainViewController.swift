@@ -37,41 +37,56 @@ class MainViewController: UIViewController {
         mapViewController.didMoveToParentViewController(self)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     @IBAction func switchDisplayMode(sender: AnyObject) {
-        // TODO: Animate the transition between the two view controllers...
 
         if currentDisplayMode == EarthquakeTrackerDisplayMode.MAP {
-            mapViewController.didMoveToParentViewController(nil)
-            mapViewController.removeFromParentViewController()
+            var fromView = mapViewController.view
+            var toView = listViewController.view
 
+            // First add the list view controller...
             addChildViewController(listViewController)
             listViewController.view.frame = containerView.frame
             containerView.addSubview(listViewController.view)
             listViewController.didMoveToParentViewController(self)
 
-            // Tell the list view controller to use the current data set.
-            // This will copy the data used to render the map, so even if
-            // there is a pending request to the USGS service, the two views
-            // will be in sync...
-            listViewController.refresh()
+            // Then start the transition between the two views...
+            UIView.transitionFromView(fromView, toView: toView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft) {
+                (Bool) -> Void in
 
-            currentDisplayMode = EarthquakeTrackerDisplayMode.LIST
-            switchDisplayModeBarBtnItem.image = UIImage(named: "map-icon")
+                // Finally, remove the map view controller...
+                self.mapViewController.didMoveToParentViewController(nil)
+                self.mapViewController.removeFromParentViewController()
+
+                // Tell the list view controller to use the current data set.
+                // This will copy the data used to render the map, so even if
+                // there is a pending request to the USGS service, the two views
+                // will be in sync...
+                self.listViewController.refresh()
+
+                self.currentDisplayMode = EarthquakeTrackerDisplayMode.LIST
+                self.switchDisplayModeBarBtnItem.image = UIImage(named: "map-icon")
+            }
+
         } else {
-            listViewController.didMoveToParentViewController(nil)
-            listViewController.removeFromParentViewController()
+            // Same deal as above, but in reverse order...
+            var fromView = listViewController.view
+            var toView = mapViewController.view
 
             addChildViewController(mapViewController)
             mapViewController.view.frame = containerView.frame
             containerView.addSubview(mapViewController.view)
             mapViewController.didMoveToParentViewController(self)
 
-            currentDisplayMode = EarthquakeTrackerDisplayMode.MAP
-            switchDisplayModeBarBtnItem.image = UIImage(named: "list-icon")
+            UIView.transitionFromView(fromView, toView: toView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight) {
+                (Bool) -> Void in
+
+                self.listViewController.didMoveToParentViewController(nil)
+                self.listViewController.removeFromParentViewController()
+
+                self.currentDisplayMode = EarthquakeTrackerDisplayMode.MAP
+                self.switchDisplayModeBarBtnItem.image = UIImage(named: "list-icon")
+            }
         }
+
     }
 }
