@@ -25,7 +25,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         dateFormatter.dateFormat = "yyyy-MM-dd 'at' h:mm a"
     }
 
-    func refreshList() {
+    func refresh() {
         earthquakes = USGSClient.sharedInstance.earthquakes
         tableView.reloadData()
     }
