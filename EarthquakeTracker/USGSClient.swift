@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Julien Lecomte. All rights reserved.
 //
 
+// TODO: Implement caching. That would be especially useful when
+// switching from the map view to the list view and vice versa...
+
 import Foundation
 import CoreLocation
 
@@ -28,15 +31,22 @@ class USGSClient: AFHTTPRequestOperationManager {
         return Static.instance!
     }
 
-    var earthquakes: [Earthquake] = []
+    var center: CLLocationCoordinate2D!
+    var maxradius: CLLocationDegrees!
 
     let settings = EarthquakeTrackerSettings.sharedInstance
 
-    func getEarthquakeList(
-        center: CLLocationCoordinate2D,
-        maxradius: CLLocationDegrees,
-        callback: (earthquakes: [Earthquake]!, error: NSError!) -> Void
-    ) {
+    func setRegion(center: CLLocationCoordinate2D, maxradius: CLLocationDegrees) {
+        self.center = center
+        self.maxradius = maxradius
+    }
+
+    func getEarthquakeList(callback: (earthquakes: [Earthquake]!, error: NSError!) -> Void) {
+        if center == nil {
+            callback(earthquakes: nil, error: NSError(domain: "No region has been set", code: 1, userInfo: nil))
+            return
+        }
+
         var parameters = [String: AnyObject]()
 
         // Output format...
@@ -77,14 +87,14 @@ class USGSClient: AFHTTPRequestOperationManager {
 
                 var object = response as NSDictionary
                 var features = object["features"] as [NSDictionary]
-                self.earthquakes = []
+                var earthquakes: [Earthquake] = []
 
                 for feature in features {
                     var earthquake = Earthquake(jsonObject: feature)
-                    self.earthquakes.append(earthquake)
+                    earthquakes.append(earthquake)
                 }
 
-                callback(earthquakes: self.earthquakes, error: nil)
+                callback(earthquakes: earthquakes, error: nil)
             },
             failure: {
                 (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in

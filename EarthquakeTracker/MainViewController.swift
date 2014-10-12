@@ -57,12 +57,6 @@ class MainViewController: UIViewController {
                 self.mapViewController.didMoveToParentViewController(nil)
                 self.mapViewController.removeFromParentViewController()
 
-                // Tell the list view controller to use the current data set.
-                // This will copy the data used to render the map, so even if
-                // there is a pending request to the USGS service, the two views
-                // will be in sync...
-                self.listViewController.refresh()
-
                 self.currentDisplayMode = EarthquakeTrackerDisplayMode.LIST
                 self.switchDisplayModeBarBtnItem.image = UIImage(named: "map-icon")
             }
@@ -87,6 +81,5 @@ class MainViewController: UIViewController {
                 self.switchDisplayModeBarBtnItem.image = UIImage(named: "list-icon")
             }
         }
-
     }
 }

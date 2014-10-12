@@ -58,10 +58,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
         map.removeAnnotations(map.annotations)
 
-        USGSClient.sharedInstance.getEarthquakeList(map.region.center,
-            maxradius: max(map.region.span.latitudeDelta, map.region.span.longitudeDelta)) {
-                (earthquakes: [Earthquake]!, error: NSError!) -> Void in
+        let client = USGSClient.sharedInstance
+        client.setRegion(map.region.center, maxradius: max(map.region.span.latitudeDelta, map.region.span.longitudeDelta))
 
+        client.getEarthquakeList() {
+            (earthquakes: [Earthquake]!, error: NSError!) -> Void in
+
+            if error != nil {
+                var alert = UIAlertController(title: "Error", message: error.description, preferredStyle: UIAlertControllerStyle.Alert)
+                self.presentViewController(alert, animated: false, completion: nil)
+            } else {
                 for earthquake in earthquakes {
                     var annotation = MKPointAnnotation()
 
@@ -78,6 +84,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
                     self.map.addAnnotation(annotation)
                 }
+            }
         }
     }
 }

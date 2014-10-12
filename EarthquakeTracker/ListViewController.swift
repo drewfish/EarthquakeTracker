@@ -26,12 +26,24 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     override func viewDidAppear(animated: Bool) {
-        // Handle case where the settings have changed...
+        // In case you just changed your settings...
+        refreshList()
     }
 
-    func refresh() {
-        earthquakes = USGSClient.sharedInstance.earthquakes
-        tableView.reloadData()
+    func refreshList() {
+        let client = USGSClient.sharedInstance
+
+        client.getEarthquakeList() {
+            (earthquakes: [Earthquake]!, error: NSError!) -> Void in
+
+            if error != nil {
+                var alert = UIAlertController(title: "Error", message: error.description, preferredStyle: UIAlertControllerStyle.Alert)
+                self.presentViewController(alert, animated: false, completion: nil)
+            } else {
+                self.earthquakes = earthquakes
+                self.tableView.reloadData()
+            }
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

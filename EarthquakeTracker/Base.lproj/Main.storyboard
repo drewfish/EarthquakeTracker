@@ -96,7 +96,6 @@
                                 <segments>
                                     <segment title="Time"/>
                                     <segment title="Magnitude"/>
-                                    <segment title="Proximity"/>
                                 </segments>
                                 <connections>
                                     <action selector="onListViewSortCtrlValueChanged:" destination="lIC-Ha-hcj" eventType="valueChanged" id="dH2-db-nq4"/>

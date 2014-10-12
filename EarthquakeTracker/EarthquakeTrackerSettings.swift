@@ -17,7 +17,6 @@ enum showEventsInThePast: Int {
 enum sortEventListBy: Int {
     case TIME
     case MAGNITUDE
-    case PROXIMITY
 }
 
 class EarthquakeTrackerSettings {
