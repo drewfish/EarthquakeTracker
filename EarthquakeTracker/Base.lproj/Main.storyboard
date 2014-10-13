@@ -8,7 +8,7 @@
         <!--Seismometer-->
         <scene sceneID="4xb-jd-P3J">
             <objects>
-                <viewController id="TXH-O2-bbP" sceneMemberID="viewController">
+                <viewController id="TXH-O2-bbP" customClass="SeismometerViewController" customModule="EarthquakeTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hjP-GD-iWh"/>
                         <viewControllerLayoutGuide type="bottom" id="7xf-PF-OOd"/>
@@ -16,9 +16,24 @@
                     <view key="view" contentMode="scaleToFill" id="rCQ-0Y-u3f">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IUg-40-Kc9" userLabel="seismoView" customClass="SeismoView" customModule="EarthquakeTracker" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IUg-40-Kc9" firstAttribute="leading" secondItem="rCQ-0Y-u3f" secondAttribute="leading" id="INt-8Z-jGT"/>
+                            <constraint firstItem="7xf-PF-OOd" firstAttribute="top" secondItem="IUg-40-Kc9" secondAttribute="bottom" id="TCR-p7-BMd"/>
+                            <constraint firstItem="IUg-40-Kc9" firstAttribute="top" secondItem="hjP-GD-iWh" secondAttribute="bottom" id="UxP-pm-MBr"/>
+                            <constraint firstAttribute="trailing" secondItem="IUg-40-Kc9" secondAttribute="trailing" id="oc4-Mf-2Wp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Seismometer" id="lxi-G0-GBX"/>
+                    <connections>
+                        <outlet property="seismoView" destination="IUg-40-Kc9" id="PaP-kW-mbm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZQy-R3-Xcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
