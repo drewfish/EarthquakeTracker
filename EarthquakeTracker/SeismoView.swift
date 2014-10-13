@@ -32,22 +32,9 @@ class SeismoView: UIView, SeismoModelDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange", name:UIDeviceOrientationDidChangeNotification, object: nil)
     }
 
-    func reportRichter(#x: Double, y: Double, z: Double) {
-        var val = 0.0
-        // use whichever has the biggest magnitude
-        if fabs(x) > fabs(y) {
-            val = x
-        }
-        else {
-            if fabs(y) > fabs(z) {
-                val = y
-            }
-            else {
-                val = z
-            }
-        }
-        values.append(val)
-        var f = fabs(val)
+    func reportMagnitude(magnitude: Double) {
+        values.append(magnitude)
+        var f = fabs(magnitude)
         while f > scale {
             scale += SEISMO_GRID_SPACING
         }
@@ -56,6 +43,11 @@ class SeismoView: UIView, SeismoModelDelegate {
             () -> Void in
             self.setNeedsDisplay()
         })
+    }
+
+    func reportNoAccelerometer() {
+        // TODO -- tell the user
+        println("No accelerometer available")
     }
 
     func onOrientationChange() {
@@ -78,7 +70,7 @@ class SeismoView: UIView, SeismoModelDelegate {
         canvas.size.height -= 16.0
 
         var yRange = 2 * scale
-        var yPixelsPerRichter = canvas.height / CGFloat(yRange)
+        var yPixelsPerG = canvas.height / CGFloat(yRange)
 
         // draw grid
         CGContextBeginPath(context)
@@ -90,7 +82,7 @@ class SeismoView: UIView, SeismoModelDelegate {
         for g in 0...numGrid {
             CGContextMoveToPoint(context, x0, y0)
             CGContextAddLineToPoint(context, x1, y0)
-            y0 += CGFloat(SEISMO_GRID_SPACING) * yPixelsPerRichter
+            y0 += CGFloat(SEISMO_GRID_SPACING) * yPixelsPerG
         }
         CGContextStrokePath(context)
 
@@ -119,7 +111,7 @@ class SeismoView: UIView, SeismoModelDelegate {
             // draw newer values left-most
             var value = values[values.count - v - 1]
             x1 += xPixelsPerValue
-            y1 = canvas.origin.y + CGFloat(scale - value) * yPixelsPerRichter
+            y1 = canvas.origin.y + CGFloat(scale - value) * yPixelsPerG
             CGContextAddLineToPoint(context, x1, y1)
         }
         CGContextStrokePath(context)
