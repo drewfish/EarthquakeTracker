@@ -162,8 +162,8 @@
 		654F599E19E9A5EC002F1614 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				61A52DF019EC663A00C7B434 /* SeismoModel.swift */,
 				654F599F19E9A60E002F1614 /* Earthquake.swift */,
+				61A52DF019EC663A00C7B434 /* SeismoModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -171,13 +171,13 @@
 		654F59A119E9C817002F1614 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				61A52DF219EC671B00C7B434 /* SeismoView.swift */,
 				6535E4CA19E9F69900E2C420 /* MainViewController.swift */,
 				654F59A219E9C846002F1614 /* MapViewController.swift */,
 				65EA0D2F19E9ED8900805BE9 /* ListViewController.swift */,
 				659D12B219E9FA0C00C7894A /* EarthquakeTableViewCell.swift */,
 				65C0584519EAE330008834E3 /* SettingsViewController.swift */,
 				61A52DF419EC67EB00C7B434 /* SeismometerViewController.swift */,
+				61A52DF219EC671B00C7B434 /* SeismoView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -454,6 +454,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = EarthquakeTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarthquakeTracker/EarthquakeTracker-Bridging-Header.h";
@@ -468,6 +469,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = EarthquakeTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarthquakeTracker/EarthquakeTracker-Bridging-Header.h";
