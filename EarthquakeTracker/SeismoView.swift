@@ -81,6 +81,7 @@ class SeismoView: UIView, SeismoModelDelegate {
         var yPixelsPerRichter = canvas.height / CGFloat(yRange)
 
         // draw grid
+        CGContextBeginPath(context)
         CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().CGColor)
         var numGrid = Int(yRange / SEISMO_GRID_SPACING)
         x0 = canvas.origin.x
@@ -94,6 +95,7 @@ class SeismoView: UIView, SeismoModelDelegate {
         CGContextStrokePath(context)
 
         // draw axes
+        CGContextBeginPath(context)
         CGContextSetStrokeColorWithColor(context, UIColor.darkGrayColor().CGColor)
         y0 = canvas.origin.y + (canvas.size.height / 2.0)
         CGContextMoveToPoint(context, x0, y0)
@@ -107,6 +109,7 @@ class SeismoView: UIView, SeismoModelDelegate {
 
         // draw data
         var xPixelsPerValue = canvas.size.width / CGFloat(values.count)
+        CGContextBeginPath(context)
         CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
         x0 = canvas.origin.x
         y0 = canvas.origin.y + (canvas.size.height / 2.0)
