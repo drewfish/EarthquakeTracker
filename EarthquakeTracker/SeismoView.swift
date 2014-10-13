@@ -34,7 +34,8 @@ class SeismoView: UIView, SeismoModelDelegate {
 
     func reportMagnitude(magnitude: Double) {
         values.append(magnitude)
-        while magnitude > scale {
+        var f = fabs(magnitude)
+        while f > scale {
             scale += SEISMO_GRID_SPACING
         }
         // The CoreMotion updates happen in a different thread?
