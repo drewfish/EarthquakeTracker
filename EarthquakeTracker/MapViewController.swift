@@ -10,6 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
+class EarthquakePointAnnotation: MKPointAnnotation {
+
+    var earthquake: Earthquake!
+}
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var map: MKMapView!
@@ -73,9 +78,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.presentViewController(alert, animated: false, completion: nil)
             } else {
                 for earthquake in earthquakes {
-                    var annotation = MKPointAnnotation()
+                    var epa = EarthquakePointAnnotation()
 
-                    annotation.coordinate = CLLocationCoordinate2D(
+                    epa.earthquake = earthquake
+
+                    epa.coordinate = CLLocationCoordinate2D(
                         latitude: earthquake.latitude as CLLocationDegrees!,
                         longitude: earthquake.longitude  as CLLocationDegrees!)
 
@@ -83,12 +90,39 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     dateFormatter.dateFormat = "M/d 'at' h:m a"
                     let time = dateFormatter.stringFromDate(earthquake.time!)
 
-                    annotation.title = "Mag. \(earthquake.magnitude!) event on \(time)"
-                    annotation.subtitle = earthquake.place
+                    epa.title = "Mag. \(earthquake.magnitude!) event on \(time)"
+                    epa.subtitle = earthquake.place
 
-                    self.map.addAnnotation(annotation)
+                    self.map.addAnnotation(epa)
                 }
             }
         }
+    }
+
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if !annotation.isKindOfClass(EarthquakePointAnnotation) {
+            return nil
+        }
+
+        var epa = annotation as EarthquakePointAnnotation
+
+        var v = map.dequeueReusableAnnotationViewWithIdentifier("EarthquakePin") as MKPinAnnotationView!
+        if v == nil {
+            v = MKPinAnnotationView(annotation: epa, reuseIdentifier: "EarthquakePin")
+        }
+
+        v.canShowCallout = true
+
+        if epa.earthquake.magnitude < 2.5 {
+            v.image = UIImage(named: "map_pin_green")
+        } else if epa.earthquake.magnitude < 3.5 {
+            v.image = UIImage(named: "map_pin_yellow")
+        } else if epa.earthquake.magnitude < 5 {
+            v.image = UIImage(named: "map_pin_orange")
+        } else {
+            v.image = UIImage(named: "map_pin_red")
+        }
+
+        return v
     }
 }

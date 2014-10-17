@@ -72,6 +72,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.magnitudeLabel.text = NSString(format: "%.2f", earthquake.magnitude!)
         cell.depthLabel.text = NSString(format: "%.2f miles", earthquake.depth! * 0.621371)
 
+        var magnitude = earthquake.magnitude!
+        var hue = 0.3 - magnitude / 20
+        cell.backgroundColor = UIColor(hue: CGFloat(hue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+
         return cell
     }
 }
