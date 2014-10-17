@@ -63,8 +63,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // on the data returned whenever the user moves the map or zooms
         // in or out. Needless to say that it is highly inefficient...
 
-        map.removeAnnotations(map.annotations)
-
         let client = USGSClient.sharedInstance
         client.setRegion(map.region.center, maxradius: max(map.region.span.latitudeDelta, map.region.span.longitudeDelta))
 
@@ -77,6 +75,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 var alert = UIAlertController(title: "Error", message: error.description, preferredStyle: UIAlertControllerStyle.Alert)
                 self.presentViewController(alert, animated: false, completion: nil)
             } else {
+                // This copies the array...
+                var oldAnnotations = self.map.annotations
+
+                // First add new annotations...
                 for earthquake in earthquakes {
                     var epa = EarthquakePointAnnotation()
 
@@ -95,6 +97,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
                     self.map.addAnnotation(epa)
                 }
+
+                // ... and only remove the old ones to prevent flickering!
+                self.map.removeAnnotations(oldAnnotations)
             }
         }
     }
