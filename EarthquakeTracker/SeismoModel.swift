@@ -68,19 +68,20 @@ let SEISMO_BUFFER_SIZE = 10
     @objc class RingBuffer {
         var ring: [Double] = []
         var index = 0
-        var average = 0.0
+        var referenceValue = 0.0
         init() {}
         func setup(value: Double) {
+            referenceValue = value
             ring = Array<Double>(count: SEISMO_BUFFER_SIZE, repeatedValue: value)
         }
         func update(newValue: Double) {
+            // There are different ways to calculate the reference value: average, mean, middle, previous, etc.
+            referenceValue = ring[index]
             index = (index + 1) % SEISMO_BUFFER_SIZE
             ring[index] = newValue
-            var sum = ring.reduce(0.0) { $0 + $1 }
-            average = sum / Double(ring.count)
         }
         func read() -> Double {
-            return ring[index] - average
+            return ring[index] - referenceValue
         }
     }
 

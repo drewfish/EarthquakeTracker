@@ -24,5 +24,6 @@ class SeismometerViewController: UIViewController {
 
     override func viewWillDisappear(animated: Bool) {
         seismoModel?.stop()
+        seismoView.reset()
     }
 }

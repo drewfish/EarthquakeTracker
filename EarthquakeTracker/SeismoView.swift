@@ -9,6 +9,7 @@
 import UIKit
 
 
+let SEISMO_VALUES_WINDOW = 100      // 10 readings/second * 10 seconds
 let SEISMO_GRID_SPACING = 0.2
 
 
@@ -30,10 +31,18 @@ class SeismoView: UIView, SeismoModelDelegate {
     func moreInit() {
         contentMode = .Redraw
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange", name:UIDeviceOrientationDidChangeNotification, object: nil)
+        values = Array<Double>(count: SEISMO_VALUES_WINDOW, repeatedValue: 0.0)
+    }
+
+    func reset() {
+        values = Array<Double>(count: SEISMO_VALUES_WINDOW, repeatedValue: 0.0)
+        scale = SEISMO_GRID_SPACING
     }
 
     func reportMagnitude(magnitude: Double) {
-        values.append(magnitude)
+        values.insert(magnitude, atIndex: 0)
+        values = Array(values[0..<SEISMO_VALUES_WINDOW])
+
         var f = fabs(magnitude)
         while f > scale {
             scale += SEISMO_GRID_SPACING
@@ -108,8 +117,7 @@ class SeismoView: UIView, SeismoModelDelegate {
         CGContextMoveToPoint(context, x0, y0)
         x1 = x0
         for v in 0..<values.count {
-            // draw newer values left-most
-            var value = values[values.count - v - 1]
+            var value = values[v]
             x1 += xPixelsPerValue
             y1 = canvas.origin.y + CGFloat(scale - value) * yPixelsPerG
             CGContextAddLineToPoint(context, x1, y1)
