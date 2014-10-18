@@ -67,8 +67,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             (earthquakes: [Earthquake]!, error: NSError!) -> Void in
 
             if error != nil {
-                // TODO -- hmmm... this apears to crash on ios7
-                println("CLIENT ERROR: \(error.description)")
                 var alert = UIAlertController(title: "Error", message: error.description, preferredStyle: UIAlertControllerStyle.Alert)
                 self.presentViewController(alert, animated: false, completion: nil)
             } else {

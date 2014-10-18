@@ -11,10 +11,14 @@ import UIKit
 
 let SEISMO_VALUES_WINDOW = 100      // 10 readings/second * 10 seconds
 let SEISMO_GRID_SPACING = 0.2
+let SEISMO_NEEDLE_OFFSET = CGFloat(-12.5)
+let SEISMO_COLOR_GRID = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+let SEISMO_COLOR_AXIS = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0)
+let SEISMO_COLOR_DATA = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
 
 class SeismoView: UIView, SeismoModelDelegate {
-    // we'll only display one line
+    @IBOutlet weak var needleView: UIImageView!
     var values: [Double] = []
     var scale = SEISMO_GRID_SPACING
 
@@ -32,6 +36,8 @@ class SeismoView: UIView, SeismoModelDelegate {
         contentMode = .Redraw
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onOrientationChange", name:UIDeviceOrientationDidChangeNotification, object: nil)
         values = Array<Double>(count: SEISMO_VALUES_WINDOW, repeatedValue: 0.0)
+        NSBundle.mainBundle().loadNibNamed("SeismoView", owner: self, options: nil)
+        self.addSubview(self.needleView)
     }
 
     func reset() {
@@ -41,12 +47,17 @@ class SeismoView: UIView, SeismoModelDelegate {
 
     func reportMagnitude(magnitude: Double) {
         values.insert(magnitude, atIndex: 0)
-        values = Array(values[0..<SEISMO_VALUES_WINDOW])
+        var lastValue = values.removeLast()
 
-        var f = fabs(magnitude)
-        while f > scale {
-            scale += SEISMO_GRID_SPACING
+        // rescale
+        var newScale = ceil(fabs(magnitude) / SEISMO_GRID_SPACING) * SEISMO_GRID_SPACING
+        scale = max(scale, newScale)
+        var f = fabs(lastValue)
+        if f > 0.00001 && f <= scale && scale != newScale {
+            var m = values.reduce(0.0) { max($0, fabs($1)) }
+            scale = ceil(m / SEISMO_GRID_SPACING) * SEISMO_GRID_SPACING
         }
+
         // The CoreMotion updates happen in a different thread?
         dispatch_async(dispatch_get_main_queue(), {
             () -> Void in
@@ -67,7 +78,6 @@ class SeismoView: UIView, SeismoModelDelegate {
     override func drawRect(rect: CGRect) {
         var context = UIGraphicsGetCurrentContext()
         CGContextSetLineWidth(context, 1.0)
-        CGContextSetStrokeColorWithColor(context, UIColor.darkGrayColor().CGColor)
 
         var x0: CGFloat, x1: CGFloat
         var y0: CGFloat, y1: CGFloat
@@ -83,7 +93,7 @@ class SeismoView: UIView, SeismoModelDelegate {
 
         // draw grid
         CGContextBeginPath(context)
-        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, SEISMO_COLOR_GRID.CGColor)
         var numGrid = Int(yRange / SEISMO_GRID_SPACING)
         x0 = canvas.origin.x
         x1 = x0 + canvas.size.width
@@ -97,7 +107,7 @@ class SeismoView: UIView, SeismoModelDelegate {
 
         // draw axes
         CGContextBeginPath(context)
-        CGContextSetStrokeColorWithColor(context, UIColor.darkGrayColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, SEISMO_COLOR_AXIS.CGColor)
         y0 = canvas.origin.y + (canvas.size.height / 2.0)
         CGContextMoveToPoint(context, x0, y0)
         CGContextAddLineToPoint(context, x1, y0)
@@ -108,12 +118,15 @@ class SeismoView: UIView, SeismoModelDelegate {
         CGContextStrokePath(context)
         // TODO -- draw text label for each grid line
 
+        var zeroY = canvas.origin.y + (canvas.size.height / 2.0)
+
         // draw data
+        var needleY: CGFloat?
         var xPixelsPerValue = canvas.size.width / CGFloat(values.count)
         CGContextBeginPath(context)
-        CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, SEISMO_COLOR_DATA.CGColor)
         x0 = canvas.origin.x
-        y0 = canvas.origin.y + (canvas.size.height / 2.0)
+        y0 = zeroY
         CGContextMoveToPoint(context, x0, y0)
         x1 = x0
         for v in 0..<values.count {
@@ -121,8 +134,14 @@ class SeismoView: UIView, SeismoModelDelegate {
             x1 += xPixelsPerValue
             y1 = canvas.origin.y + CGFloat(scale - value) * yPixelsPerG
             CGContextAddLineToPoint(context, x1, y1)
+            if needleY == nil {
+                needleY = y1
+            }
         }
         CGContextStrokePath(context)
+
+        // update needle
+        needleView.frame.origin.y = (needleY ?? zeroY) + SEISMO_NEEDLE_OFFSET
     }
 }
 

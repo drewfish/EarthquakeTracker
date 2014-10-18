@@ -10,6 +10,7 @@
 		61A52DF119EC663A00C7B434 /* SeismoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A52DF019EC663A00C7B434 /* SeismoModel.swift */; };
 		61A52DF319EC671B00C7B434 /* SeismoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A52DF219EC671B00C7B434 /* SeismoView.swift */; };
 		61A52DF519EC67EB00C7B434 /* SeismometerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A52DF419EC67EB00C7B434 /* SeismometerViewController.swift */; };
+		61DC890B19F1D6B100B70C6B /* SeismoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61DC890A19F1D6B100B70C6B /* SeismoView.xib */; };
 		6535E4CB19E9F69900E2C420 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6535E4CA19E9F69900E2C420 /* MainViewController.swift */; };
 		654F597919E993DA002F1614 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F597819E993DA002F1614 /* AppDelegate.swift */; };
 		654F597E19E993DA002F1614 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 654F597C19E993DA002F1614 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		61A52DF019EC663A00C7B434 /* SeismoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeismoModel.swift; sourceTree = "<group>"; };
 		61A52DF219EC671B00C7B434 /* SeismoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeismoView.swift; sourceTree = "<group>"; };
 		61A52DF419EC67EB00C7B434 /* SeismometerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeismometerViewController.swift; sourceTree = "<group>"; };
+		61DC890A19F1D6B100B70C6B /* SeismoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeismoView.xib; sourceTree = "<group>"; };
 		6535E4CA19E9F69900E2C420 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		654F597319E993DA002F1614 /* EarthquakeTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EarthquakeTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		654F597719E993DA002F1614 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,6 +89,15 @@
 				FA89D721B6124EC1A9C3E221 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		61DC890919F1D67E00B70C6B /* SeismoView */ = {
+			isa = PBXGroup;
+			children = (
+				61A52DF219EC671B00C7B434 /* SeismoView.swift */,
+				61DC890A19F1D6B100B70C6B /* SeismoView.xib */,
+			);
+			name = SeismoView;
 			sourceTree = "<group>";
 		};
 		654F596A19E993DA002F1614 = {
@@ -171,13 +182,13 @@
 		654F59A119E9C817002F1614 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				61DC890919F1D67E00B70C6B /* SeismoView */,
 				6535E4CA19E9F69900E2C420 /* MainViewController.swift */,
 				654F59A219E9C846002F1614 /* MapViewController.swift */,
 				65EA0D2F19E9ED8900805BE9 /* ListViewController.swift */,
 				659D12B219E9FA0C00C7894A /* EarthquakeTableViewCell.swift */,
 				65C0584519EAE330008834E3 /* SettingsViewController.swift */,
 				61A52DF419EC67EB00C7B434 /* SeismometerViewController.swift */,
-				61A52DF219EC671B00C7B434 /* SeismoView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -266,6 +277,7 @@
 			files = (
 				654F597E19E993DA002F1614 /* Main.storyboard in Resources */,
 				654F598319E993DA002F1614 /* LaunchScreen.xib in Resources */,
+				61DC890B19F1D6B100B70C6B /* SeismoView.xib in Resources */,
 				654F598019E993DA002F1614 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
