@@ -10,8 +10,7 @@ import UIKit
 import CoreMotion
 
 
-let SEISMO_UPDATE_INTERVAL = 1.0 / 10.0
-let SEISMO_BUFFER_SIZE = 10
+let SEISMO_UPDATE_INTERVAL = 1.0 / 20.0
 
 
 @objc protocol SeismoModelDelegate {
@@ -49,12 +48,13 @@ let SEISMO_BUFFER_SIZE = 10
                     (data!.acceleration.z * data!.acceleration.z)
                 )
                 if first {
-                    self.magnitudes.setup(magnitude)
+                    self.lastMagnitude = magnitude
                     first = false
-                    return
                 }
-                self.magnitudes.update(magnitude)
-                self.delegate?.reportMagnitude(self.magnitudes.read())
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.delegate?.reportMagnitude(magnitude - self.lastMagnitude)
+                    self.lastMagnitude = magnitude
+                })
             }
         })
     }
@@ -64,28 +64,7 @@ let SEISMO_BUFFER_SIZE = 10
         motionManager?.stopAccelerometerUpdates()
     }
 
-    // We auto-zero the values based on a rolling 1-second window.
-    @objc class RingBuffer {
-        var ring: [Double] = []
-        var index = 0
-        var referenceValue = 0.0
-        init() {}
-        func setup(value: Double) {
-            referenceValue = value
-            ring = Array<Double>(count: SEISMO_BUFFER_SIZE, repeatedValue: value)
-        }
-        func update(newValue: Double) {
-            // There are different ways to calculate the reference value: average, mean, middle, previous, etc.
-            referenceValue = ring[index]
-            index = (index + 1) % SEISMO_BUFFER_SIZE
-            ring[index] = newValue
-        }
-        func read() -> Double {
-            return ring[index] - referenceValue
-        }
-    }
-
     private var motionManager: CMMotionManager?
-    private var magnitudes = RingBuffer()
+    private var lastMagnitude = 0.0
 }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pbd-K1-uKL">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -9,7 +8,7 @@
         <!--Seismometer-->
         <scene sceneID="4xb-jd-P3J">
             <objects>
-                <viewController id="TXH-O2-bbP" customClass="SeismometerViewController" customModule="EarthquakeTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="TXH-O2-bbP" customClass="SeismoViewController" customModule="EarthquakeTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hjP-GD-iWh"/>
                         <viewControllerLayoutGuide type="bottom" id="7xf-PF-OOd"/>
@@ -18,22 +17,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IUg-40-Kc9" userLabel="seismoView" customClass="SeismoView" customModule="EarthquakeTracker" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vo2-JW-JuD" userLabel="backgroundView" customClass="SeismoBackgroundView" customModule="EarthquakeTracker" customModuleProvider="target">
+                                <rect key="frame" x="93" y="28" width="135" height="92"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XW8-qC-pl9" userLabel="axisView" customClass="SeismoAxisView" customModule="EarthquakeTracker" customModuleProvider="target">
+                                <rect key="frame" x="93" y="148" width="135" height="92"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="seismo-needle" translatesAutoresizingMaskIntoConstraints="NO" id="L2s-bb-QCA" userLabel="needleView">
+                                <rect key="frame" x="0.0" y="153" width="30" height="39"/>
+                            </imageView>
+                            <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51A-Ic-wOv" userLabel="dataView" customClass="SeismoDataView" customModule="EarthquakeTracker" customModuleProvider="target">
+                                <rect key="frame" x="93" y="301" width="135" height="92"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="IUg-40-Kc9" firstAttribute="leading" secondItem="rCQ-0Y-u3f" secondAttribute="leading" id="INt-8Z-jGT"/>
-                            <constraint firstItem="7xf-PF-OOd" firstAttribute="top" secondItem="IUg-40-Kc9" secondAttribute="bottom" id="TCR-p7-BMd"/>
-                            <constraint firstItem="IUg-40-Kc9" firstAttribute="top" secondItem="hjP-GD-iWh" secondAttribute="bottom" id="UxP-pm-MBr"/>
-                            <constraint firstAttribute="trailing" secondItem="IUg-40-Kc9" secondAttribute="trailing" id="oc4-Mf-2Wp"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Seismometer" id="lxi-G0-GBX"/>
                     <connections>
-                        <outlet property="seismoView" destination="IUg-40-Kc9" id="PaP-kW-mbm"/>
+                        <outlet property="axisView" destination="XW8-qC-pl9" id="qi6-O6-HJo"/>
+                        <outlet property="backgroundView" destination="Vo2-JW-JuD" id="e1J-FJ-CyQ"/>
+                        <outlet property="dataView" destination="51A-Ic-wOv" id="r69-8H-T7y"/>
+                        <outlet property="needleView" destination="L2s-bb-QCA" id="fV0-fe-s2O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZQy-R3-Xcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -404,6 +411,7 @@
     <resources>
         <image name="data-icon" width="24" height="24"/>
         <image name="list-icon" width="24" height="24"/>
+        <image name="seismo-needle" width="202" height="52"/>
         <image name="seismometer-icon" width="24" height="24"/>
         <image name="settings-icon" width="24" height="24"/>
     </resources>
